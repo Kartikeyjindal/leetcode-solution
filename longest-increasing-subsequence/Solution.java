@@ -1,33 +1,37 @@
 class Solution 
 {
-    int [][]dp;
     public int lengthOfLIS(int[] nums) 
     {
-        dp=new int[nums.length][nums.length+1];
-        for (int[] row : dp) 
+         int n = nums.length;
+        List<Integer> sorted = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) 
         {
-            Arrays.fill(row, -1);
+            int index = binarySearch(sorted, nums[i]);
+
+            if (index == sorted.size())
+                sorted.add(nums[i]);
+            else
+                sorted.set(index, nums[i]);
         }
-        return solve(0,-1,nums);
+
+        return sorted.size();   
     }
 
-    public int solve(int i,int prev,int []nums)
-    {
-        if(i>=nums.length)
-        {
-            return 0;
+     private int binarySearch(List<Integer> sorted, int target) {
+        int left = 0, right = sorted.size();
+        int result = sorted.size();
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            if (sorted.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                result = mid;
+                right = mid;
+            }
         }
-        if(dp[i][prev+1]!=-1)
-        {
-            return dp[i][prev+1];
-        }
-        int take=0;
-        if(prev ==-1 || nums[prev]<nums[i])
-        {
-            take=1+solve(i+1,i,nums);
-        }
-        int skip=solve(i+1,prev,nums);
-
-        return dp[i][prev+1]=Math.max(take,skip);
+        return result;
     }
 }
