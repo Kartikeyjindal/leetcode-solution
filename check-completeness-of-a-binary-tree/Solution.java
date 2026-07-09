@@ -13,13 +13,15 @@
  *     }
  * }
  */
+import java.util.*;
+
 class Solution 
 {
     public boolean isCompleteTree(TreeNode root) 
     {
-        int i=1;
         int num=count(root);
-        return completetree(root,num,i);
+        int i=1;
+        return dfs(root,num,i);
     }
     public int count(TreeNode root)
     {
@@ -29,9 +31,9 @@ class Solution
         }
         return 1+count(root.left)+count(root.right);
     }
-    public boolean completetree(TreeNode root,int num,int i)
+    public boolean dfs(TreeNode root,int num,int i)
     {
-        if(root==null)
+        if(root == null)
         {
             return true;
         }
@@ -39,6 +41,6 @@ class Solution
         {
             return false;
         }
-        return completetree(root.left,num,2*i)&&completetree(root.right,num,2*i+1);
+        return dfs(root.left,num,2*i)&&dfs(root.right,num,2*i+1);
     }
 }
