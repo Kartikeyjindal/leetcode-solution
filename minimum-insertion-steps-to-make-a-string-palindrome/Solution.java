@@ -1,32 +1,35 @@
 class Solution 
 {
+    public int [][]dp=new int [501][501];
     public int minInsertions(String s) 
     {
-        int n = s.length();
-        int [][]dp = new int[n][n];
-
-        for (int[] a : dp) 
+        int n=s.length();
+        for (int []row:dp)
         {
-            Arrays.fill(a, 0);
+            Arrays.fill(row,-1);
+        }
+        return solve(s,0,n-1);
+    }
+
+    public int solve(String s,int i,int j)
+    {
+        if(i>=j)
+        {
+            return 0;
+        }
+        if(dp[i][j] != -1)
+        {
+            return dp[i][j];
         }
 
-        for (int l = 2; l <= n; l++) 
+        if(s.charAt(i) == s.charAt(j))
         {
-            for (int i = 0; i <= n - l; i++)
-            {
-                int j = l + i - 1;
-
-                if (s.charAt(i) == s.charAt(j)) 
-                {
-                    dp[i][j] = dp[i + 1][j - 1];
-                } 
-                else 
-                {
-                    dp[i][j] = 1 + Math.min(dp[i][j - 1], dp[i + 1][j]);
-                }
-            }
+            dp[i][j]=solve(s,i+1,j-1);
         }
-
-        return dp[0][n - 1];
+        else
+        {
+            dp[i][j]=1+Math.min(solve(s,i+1,j),solve(s,i,j-1));
+        }
+        return dp[i][j];
     }
 }
