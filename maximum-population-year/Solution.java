@@ -37,7 +37,7 @@ class Solution
 
         for(pair p : arr)
         {
-            sum += p.b;
+            sum += p.b;   // FIXED
 
             if(sum > maxpoll)
             {
