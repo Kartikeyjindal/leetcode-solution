@@ -1,49 +1,46 @@
 class Solution 
 {
+    public Boolean [][]dp=new Boolean[1001][1001];
     public String longestPalindrome(String s) 
     {
-        int n = s.length();
-        boolean[][] dp = new boolean[n][n];
-
-        int start = 0;
-        int maxLen = 1;
-
-        // All substrings of length 1 are palindromes
-        for (int i = 0; i < n; i++) 
+        for(Boolean []row:dp)
         {
-            dp[i][i] = true;
+            Arrays.fill(row,false);
         }
-
-        // Substrings of length 2
-        for (int i = 0; i < n - 1; i++) 
+        int n=s.length();
+        int maxlength=0;
+        int strt=0;
+        for(int i=0;i<n;i++)
         {
-            if (s.charAt(i) == s.charAt(i + 1)) 
+            for(int j=i;j<n;j++)
             {
-                dp[i][i + 1] = true;
-                start = i;
-                maxLen = 2;
-            }
-        }
-
-        // Substrings of length >= 3
-        for (int len = 3; len <= n; len++) 
-        {
-            for (int i = 0; i <= n - len; i++) 
-            {
-                int j = i + len - 1;
-
-                if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) 
+                if(solve(s,i,j))
                 {
-                    dp[i][j] = true;
-                    if (len > maxLen) 
+                    if(j-i+1 > maxlength)
                     {
-                        start = i;
-                        maxLen = len;
+                        maxlength=j-i+1;
+                        strt=i;
                     }
                 }
             }
         }
-
-        return s.substring(start, start + maxLen);
+        String result=s.substring(strt,strt+maxlength);
+        return result;
+    }
+    public boolean solve(String s,int i,int j)
+    {
+        if(i>=j)
+        {
+            return true;
+        }
+        if(dp[i][j])
+        {
+            return dp[i][j];
+        }
+        if(s.charAt(i) == s.charAt(j))
+        {
+            return dp[i][j]=solve(s,i+1,j-1);
+        }
+        return false;
     }
 }
