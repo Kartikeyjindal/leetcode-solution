@@ -17,27 +17,28 @@ class Solution
 {
     public boolean isCompleteTree(TreeNode root) 
     {
-        Queue<TreeNode>queue=new LinkedList<>();
-        queue.add(root);
-        boolean seenull=false;
-        while(!queue.isEmpty())
+        int i=1;
+        int num=count(root);
+        return completetree(root,num,i);
+    }
+    public int count(TreeNode root)
+    {
+        if(root==null)
         {
-            TreeNode temp=queue.poll();
-            if(temp==null)
-            {
-                seenull=true;
-            }
-            else
-            {
-                if(seenull)
-                {
-                    return false;
-                }
-                queue.add(temp.left);
-                queue.add(temp.right);
-            }
-            
+            return 0;
         }
-        return true;
+        return 1+count(root.left)+count(root.right);
+    }
+    public boolean completetree(TreeNode root,int num,int i)
+    {
+        if(root==null)
+        {
+            return true;
+        }
+        if(i>num)
+        {
+            return false;
+        }
+        return completetree(root.left,num,2*i)&&completetree(root.right,num,2*i+1);
     }
 }
