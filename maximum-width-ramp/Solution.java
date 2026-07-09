@@ -2,27 +2,28 @@ class Solution
 {
     public int maxWidthRamp(int[] nums) 
     {
-        int n = nums.length;
-        Stack<Integer> stack = new Stack<>();
+        int n=nums.length;
+        int []rmax=new int[n];
+        rmax[n-1]=nums[n-1];
 
-        for (int i = 0; i < n; i++)
+        for(int i=n-2;i>=0;i--)
         {
-            if (stack.isEmpty() || nums[stack.peek()] >= nums[i])
-            {
-                stack.push(i);
-            }
+            rmax[i]=Math.max(rmax[i+1],nums[i]);
         }
 
-        int ramp = 0;
+        int ramp=0;
+        int i=0;
+        int j=0;
 
-        for (int j = n - 1; j >= 0; j--)
+        while(j<n)
         {
-            while (!stack.isEmpty() && nums[j] >= nums[stack.peek()])
+            while(i<j && nums[i]>rmax[j])
             {
-                ramp = Math.max(ramp, j - stack.pop());
+                i++;
             }
-        }
-
+            ramp=Math.max(ramp,j-i);
+            j++;
+        }        
         return ramp;
     }
 }
