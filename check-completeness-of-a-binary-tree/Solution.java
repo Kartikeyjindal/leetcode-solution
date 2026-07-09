@@ -19,28 +19,28 @@ class Solution
 {
     public boolean isCompleteTree(TreeNode root) 
     {
-        int num=count(root);
-        int i=1;
-        return dfs(root,num,i);
-    }
-    public int count(TreeNode root)
-    {
-        if(root==null)
+        boolean flag = false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while(!queue.isEmpty())
         {
-            return 0;
+            TreeNode node = queue.poll();
+
+            if(node == null)
+            {
+                flag = true;
+            }
+            else
+            {
+                if(flag) 
+                {
+                    return false;
+                }
+                queue.add(node.left); 
+                queue.add(node.right);
+            }
         }
-        return 1+count(root.left)+count(root.right);
-    }
-    public boolean dfs(TreeNode root,int num,int i)
-    {
-        if(root == null)
-        {
-            return true;
-        }
-        if(i>num)
-        {
-            return false;
-        }
-        return dfs(root.left,num,2*i)&&dfs(root.right,num,2*i+1);
+        return true;
     }
 }
