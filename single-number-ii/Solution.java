@@ -2,18 +2,19 @@ class Solution
 {
     public int singleNumber(int[] nums) 
     {
-        int ans=0;
+        Map<Integer,Integer> map=new HashMap<>();
 
-        for(int i=0;i<32;i++)
+        for(int x:nums)
         {
-            int sum=0;
-            for(final int num:nums)
+            map.put(x,map.getOrDefault(x,0)+1);
+        }  
+        for(Map.Entry<Integer,Integer> entry:map.entrySet())
+        {
+            if(entry.getValue()==1)
             {
-                sum+=num>>i&1;
+                return entry.getKey();
             }
-            sum%=3;
-            ans|=sum<<i;
         }
-        return ans;
+        return -1;
     }
 }
