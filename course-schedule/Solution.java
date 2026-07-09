@@ -7,40 +7,48 @@ class Solution
         {
             adj.add(new ArrayList<>());
         }
-        int[]indegree=new int[numCourses];
+        
         for(int []edge:prerequisites)
         {
             adj.get(edge[0]).add(edge[1]);
-            indegree[edge[1]]++;
         }
 
-        Queue<Integer> queue=new LinkedList<>();
+        boolean []visited=new boolean[numCourses];
+        boolean []pathvisited=new boolean[numCourses];
+
         for(int i=0;i<numCourses;i++)
         {
-            if(indegree[i]==0)
+            if(!visited[i])
             {
-                queue.add(i);
-            }
-        }
-        int count=0;
-        while(!queue.isEmpty())
-        {
-            int curr=queue.poll();
-            count++;
-            for(int neighbor:adj.get(curr))
-            {
-                indegree[neighbor]--;
-                if(indegree[neighbor]==0)
+                if(dfs(i,adj,visited,pathvisited))
                 {
-                    queue.add(neighbor);
+                    return false;
                 }
-                
             }
         }
-        if(count==numCourses)
+        return true;
+    }
+
+    public boolean dfs(int node,ArrayList<ArrayList<Integer>> adj,boolean []visited ,boolean []pathvisited)
+    {
+        visited[node]=true;
+        pathvisited[node]=true;
+
+        for(int neighbor:adj.get(node))
         {
-            return true;
+            if(!visited[neighbor])
+            {
+                if(dfs(neighbor,adj,visited,pathvisited))
+                {
+                    return true;
+                }
+            }
+            else if(pathvisited[neighbor])
+            {
+                return true;
+            }
         }
+        pathvisited[node]=false;
         return false;
     }
 }
