@@ -1,7 +1,5 @@
-class Solution 
-{
-    public int orangesRotting(int[][] grid) 
-    {
+class Solution {
+    public int orangesRotting(int[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
         boolean vis[][] = new boolean[n][m];
