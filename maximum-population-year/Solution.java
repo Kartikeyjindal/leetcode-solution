@@ -1,51 +1,30 @@
-class pair
-{
-    int a, b;
-
-    pair(int a, int b)
-    {
-        this.a = a;
-        this.b = b;
-    }
-}
-
 class Solution 
 {
     public int maximumPopulation(int[][] logs) 
     {
-        ArrayList<pair> arr = new ArrayList<>();
-
-        for(int[] a : logs)
+        int n=logs.length;
+        int []arr=new int[101];
+        for(int []a:logs)
         {
-            int birth = a[0];
-            int death = a[1];
+            int birth =a[0];
+            int death=a[1];
 
-            arr.add(new pair(birth, +1));
-            arr.add(new pair(death, -1));
+            arr[birth-1950]+=1;
+            arr[death-1950]-=1;
         }
-
-        // Custom sorting
-        Collections.sort(arr, (x, y) -> {
-            if(x.a == y.a)
-                return x.b - y.b;  // death (-1) first
-            return x.a - y.a;
-        });
-
-        int sum = 0;
-        int maxpoll = 0;
-        int year = 0;
-
-        for(pair p : arr)
+        int maxpol=0;
+        int year=0;
+        int sum=0;
+        int al=arr.length;
+        for(int i=0;i<al;i++)
         {
-            sum += p.b;   // FIXED
-
-            if(sum > maxpoll)
+            sum+=arr[i];
+            if(sum>maxpol)
             {
-                maxpoll = sum;
-                year = p.a;
+                maxpol=sum;
+                year=i+1950;
             }
         }
-
         return year;
     }
 }
