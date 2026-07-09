@@ -22,7 +22,7 @@ class Solution
             }
         }
         int ans=0;
-        for(int i=1;i*1<=count;i++)
+        for(int i=1;i<=count;i++)
         {
             if(count%i==0)
             {
