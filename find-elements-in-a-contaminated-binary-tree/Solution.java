@@ -13,26 +13,61 @@
  *     }
  * }
  */
-class FindElements {
-    HashSet<Integer> set;
-    public FindElements(TreeNode root) {
-        set= new HashSet<>();
-        if(root!=null)
-            set.add(0);
-        elements(root,0);
-       // System.out.println(set);
-    }
-    private void elements(TreeNode root,int val){
-        if(root==null) return;
-        root.val=val;
-        set.add(val);
-        elements(root.left,root.val*2+1);
-        
-        elements(root.right,root.val*2+2);
+class FindElements 
+{
+    TreeNode root;
+
+    public FindElements(TreeNode root) 
+    {
+        this.root = root; 
+        if(root != null)
+        {
+            root.val = 0;
+
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(root);
+
+            while(!queue.isEmpty())
+            {
+                TreeNode node = queue.poll();
+
+                if(node.left != null)
+                {
+                    node.left.val = 2 * node.val + 1;
+                    queue.add(node.left);
+                }
+
+                if(node.right != null)
+                {
+                    node.right.val = 2 * node.val + 2;
+                    queue.add(node.right);
+                }
+            }
+        }
     }
     
-    public boolean find(int target) {
-        return set.contains(target);
+    public boolean find(int target) 
+    {
+        if(root == null) return false;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while(!queue.isEmpty())
+        {
+            TreeNode node = queue.poll();
+
+            if(node.val == target)
+                return true;
+
+            if(node.left != null)
+                queue.add(node.left);
+
+            if(node.right != null)
+                queue.add(node.right);
+        }
+
+        return false;
     }
 }
 
