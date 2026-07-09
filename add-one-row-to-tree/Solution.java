@@ -47,7 +47,6 @@ class Solution
 
             root.left.left=newleft;
             root.right.right=newright;
-            return ;
         }
         solve(root.left,val,depth,curr+1);
         solve(root.right,val,depth,curr+1);
