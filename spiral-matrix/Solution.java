@@ -1,56 +1,62 @@
-class Solution 
+class Solution
 {
-    public List<Integer> spiralOrder(int[][] matrix) 
+    public List<Integer> spiralOrder(int[][] matrix)
     {
-        List<Integer> ans=new ArrayList<>();
+        List<Integer> result=new ArrayList<>();
+
+        if(matrix.length==0)
+        {
+            return result;
+        }
+
         int m=matrix.length;
         int n=matrix[0].length;
 
-        int dir=0;//dir=0 ltor. dir=1 ttob. dir=2 rtol. dir=3 btot. 
         int top=0;
-        int bottom=m-1;
+        int down=m-1;
         int left=0;
         int right=n-1;
 
-        while(top<=bottom && left<=right)
+        int id=0;
+
+        while(top<=down && left<=right)
         {
-            if(dir==0)
+            if(id==0)
             {
                 for(int i=left;i<=right;i++)
                 {
-                    ans.add(matrix[top][i]);
+                    result.add(matrix[top][i]);
                 }
                 top++;
-                dir++;
             }
-            else if(dir==1)
+            else if(id==1)
             {
-                for(int i=top;i<=bottom;i++)
+                for(int i=top;i<=down;i++)
                 {
-                    ans.add(matrix[i][right]);
+                    result.add(matrix[i][right]);
                 }
                 right--;
-                dir++;
             }
-            else if(dir==2)
+            else if(id==2)
             {
                 for(int i=right;i>=left;i--)
                 {
-                    ans.add(matrix[bottom][i]);
+                    result.add(matrix[down][i]);
                 }
-                bottom--;
-                dir++;
+                down--;
             }
             else
             {
-                for(int i=bottom;i>=top;i--)
+                for(int i=down;i>=top;i--)
                 {
-                    ans.add(matrix[i][left]);
+                    result.add(matrix[i][left]);
                 }
                 left++;
-                dir=0;
             }
+
+            id=(id+1)%4;
         }
-        return ans;
+
+        return result;
     }
 }
