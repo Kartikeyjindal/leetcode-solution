@@ -27,27 +27,25 @@ class Solution
 {
     public TreeNode sortedListToBST(ListNode head) 
     {
-        if(head==null)
+        ArrayList<Integer> nums=new ArrayList<>();
+        while(head!=null)
+        {
+            nums.add(head.val);
+            head=head.next;
+        }
+        return solve(nums ,0,nums.size()-1);
+    }
+    public TreeNode solve(ArrayList<Integer> nums,int l,int r)
+    {
+        if(l>r)
         {
             return null;
         }
-        if(head.next==null)
-        {
-            return new TreeNode(head.val);
-        }
-        ListNode slow=head;
-        ListNode fast=head;
-        ListNode prev=null;
-        while(fast!=null && fast.next!=null)
-        {
-            prev=slow;
-            slow=slow.next;
-            fast=fast.next.next;
-        }
-        TreeNode root=new TreeNode(slow.val);
-        prev.next=null;
-        root.left=sortedListToBST(head);
-        root.right=sortedListToBST(slow.next);
+        int mid=l+(r-l)/2;
+
+        TreeNode root=new TreeNode(nums.get(mid));
+        root.left=solve(nums,l,mid-1);
+        root.right=solve(nums,mid+1,r);
         return root;
     }
 }
