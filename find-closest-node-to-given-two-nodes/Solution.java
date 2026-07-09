@@ -1,41 +1,78 @@
 class Solution 
 {
+    int []node1ans;
+    int []node2ans;
+    int n;
+    ArrayList<ArrayList<Integer>> adj;
     public int closestMeetingNode(int[] edges, int node1, int node2) 
     {
-        int n = edges.length;
-        int[] dist1 = getDistances(node1, edges, n);
-        int[] dist2 = getDistances(node2, edges, n);
-        int minDist = Integer.MAX_VALUE;
-        int minNode = -1;
-        
-        for (int i = 0; i < n; i++) 
+        adj=new ArrayList<>();
+        n=edges.length;
+
+        for(int i=0;i<n;i++)
         {
-            if (dist1[i] != Integer.MAX_VALUE && dist2[i] != Integer.MAX_VALUE) 
+            adj.add(new ArrayList<>());
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            if (edges[i] != -1) 
             {
-                int currentMax = Math.max(dist1[i], dist2[i]);
-                if (currentMax < minDist) 
+                adj.get(i).add(edges[i]);
+            }
+        }
+        boolean []visited1=new boolean[n];
+        boolean []visited2=new boolean[n];
+        node1ans=bfs(node1,visited1);
+        node2ans=bfs(node2,visited2);
+
+        int []nodeans=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            if (node1ans[i] != Integer.MAX_VALUE && node2ans[i] != Integer.MAX_VALUE) 
+            {
+                nodeans[i] = Math.max(node1ans[i], node2ans[i]);
+            } 
+            else 
+            {
+                nodeans[i] = Integer.MAX_VALUE;
+            }
+        }
+        int min=Integer.MAX_VALUE;
+        int idx=-1;
+        for(int i=0;i<n;i++)
+        {
+            if(nodeans[i]<min)
+            {
+                min=nodeans[i];
+                idx=i;
+            }
+        }
+        return idx;
+    }
+
+    public int[] bfs(int node,boolean []visited)
+    {
+        int []ans=new int[n];
+        Arrays.fill(ans, Integer.MAX_VALUE);
+        visited[node]=true;
+        Queue<Integer> queue=new LinkedList<>();
+        queue.add(node);
+        ans[node]=0;
+
+        while(!queue.isEmpty())
+        {
+            int cur=queue.poll();
+            for(int neighbor:adj.get(cur))
+            {
+                if(!visited[neighbor])
                 {
-                    minDist = currentMax;
-                    minNode = i;
+                    visited[neighbor]=true;
+                    queue.add(neighbor);
+                    ans[neighbor]=1+ans[cur];
                 }
             }
         }
-        return minNode;
-    }
-
-    private int[] getDistances(int startNode, int[] edges, int n) 
-    {
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        int currentDistance = 0;
-        int currentNode = startNode;
-        
-        while (currentNode != -1 && dist[currentNode] == Integer.MAX_VALUE) 
-        {
-            dist[currentNode] = currentDistance;
-            currentDistance++;
-            currentNode = edges[currentNode];
-        }
-        return dist;
+        return ans;
     }
 }
