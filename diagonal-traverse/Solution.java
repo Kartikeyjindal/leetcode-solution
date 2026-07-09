@@ -1,47 +1,43 @@
 class Solution 
 {
+    public int []result;
+    public boolean[][]visited;
+    public int n,m,idx=0;
     public int[] findDiagonalOrder(int[][] mat) 
     {
-        int m=mat.length;
-        int n=mat[0].length;
-        int []ans=new int[n*m];
-        Map<Integer,List<Integer>> map=new HashMap<>();
-
-        for(int i=0;i<m;i++)
+        n=mat.length;
+        m=mat[0].length;
+        result=new int[n*m];
+        visited=new boolean[n][m];
+        solve(0,0,true,mat);
+        return result;
+    }
+    public void solve(int i,int j,boolean up,int[][]mat)
+    {
+        if(i<0||j<0||i>=n||j>=m||visited[i][j])
         {
-            for(int j=0;j<n;j++)
-            {
-                int val=mat[i][j];
-                int pos=i+j;
+            return;
+        }
+        result[idx++]=mat[i][j];
+        visited[i][j]=true;
 
-                if(!map.containsKey(pos))
-                {
-                    map.put(pos,new ArrayList<>());
-                }
-                map.get(pos).add(val);
+        if(up)
+        {
+            if(i-1>=0 && j+1<m) {
+                solve(i-1,j+1,true,mat);
+            } else {
+                if(j+1<m) solve(i,j+1,false,mat);
+                else solve(i+1,j,false,mat);
             }
         }
-        int k=0;
-        for(int pos=0;pos<=m+n-2;pos++)
+        else
         {
-            List<Integer> curr=map.get(pos);
-            if(pos%2!=0)
-            {
-                for(int i=0;i<curr.size();i++)
-                {
-                    ans[k]=curr.get(i);
-                    k++;
-                }
-            }
-            else
-            {
-                for(int i=curr.size()-1;i>=0;i--)
-                {
-                    ans[k]=curr.get(i);
-                    k++;
-                }
+            if(i+1<n && j-1>=0) {
+                solve(i+1,j-1,false,mat);
+            } else {
+                if(i+1<n) solve(i+1,j,true,mat);
+                else solve(i,j+1,true,mat);
             }
         }
-        return ans;
     }
 }
