@@ -11,7 +11,7 @@ class Solution
 {
     public int evalRPN(String[] tokens) 
     {
-        Deque<Integer> stack = new ArrayDeque<>();
+        Stack<Integer> stack=new Stack<>();
 
         for(String s:tokens)
         {
