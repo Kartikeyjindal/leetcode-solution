@@ -2,18 +2,25 @@ class Solution
 {
     public int climbStairs(int n) 
     {
-       if(n==1 || n==2 || n==3)
-       {
-        return n;
-       }
-       int []t=new int[n+1];
-       t[0]=0;
-       t[1]=1;
-       t[2]=2;
-       for(int i=3;i<=n;i++)
-       {
-        t[i]=t[i-1]+t[i-2];
-       }
-       return t[n];
+        int []memo=new int[n+1];
+        return count(n,memo);
+    }
+
+    public int count(int n,int []memo)
+    {
+        if(n<0)
+        {
+            return 0;
+        }
+        if(n == 0)
+        {
+            return 1;
+        }
+        if(memo[n]!=0)
+        {
+            return memo[n];
+        }
+        memo[n]=count(n-1,memo)+count(n-2,memo);
+        return memo[n];
     }
 }
