@@ -1,13 +1,18 @@
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[j] == target - nums[i]) {
-                    return new int[] { i, j };
-                }
+class Solution 
+{
+    public int[] twoSum(int[] nums, int target) 
+    {
+        int n=nums.length;
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<n;i++)
+        {
+            int find=target-nums[i];
+            if(map.containsKey(find))
+            {
+                return new int[]{map.get(find),i};
             }
-        }
-        // If no valid pair is found, return an empty array instead of null
-        return new int[] {};
+            map.put(nums[i],i);
+        } 
+        return new int[]{};
     }
 }
