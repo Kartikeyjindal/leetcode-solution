@@ -8,9 +8,15 @@ class Solution
             if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
             {
                 vowels++;
-                return true;
             }
         }
-        return false;
+        if(vowels > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
