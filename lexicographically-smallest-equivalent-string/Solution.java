@@ -1,58 +1,47 @@
 class Solution 
 {
-    int []parent=new int[26];
-    int []rank=new int[26];
     public String smallestEquivalentString(String s1, String s2, String base) 
     {
+        ArrayList<ArrayList<Character>> adj=new ArrayList<>();
+        int n=s1.length();
+        
         for(int i=0;i<26;i++)
         {
-            parent[i]=i;
+            adj.add(new ArrayList<>());
         }
-        Arrays.fill(rank,-1);
-        int n=s1.length();
 
         for(int i=0;i<n;i++)
         {
-            int u=s1.charAt(i)-'a';
-            int v=s2.charAt(i)-'a';
-
-            union(u,v);
+            adj.get(s1.charAt(i)-'a').add(s2.charAt(i));
+            adj.get(s2.charAt(i)-'a').add(s1.charAt(i));
         }
-
+        
         StringBuilder ans=new StringBuilder();
+
         for(int i=0;i<base.length();i++)
         {
-            int curr=base.charAt(i)-'a';
-            char smallest=(char)(find(curr)+'a');
-            ans.append(smallest);
+            boolean []visited=new boolean[26];
+            char minchar=dfs(base.charAt(i),visited,adj);
+            ans.append(minchar);
         }
         return ans.toString();
     }
 
-    public void union(int x,int y)
+    public char dfs(char c,boolean []visited,ArrayList<ArrayList<Character>> adj)
     {
-        int xparent=find(x);
-        int yparent=find(y);
-
-        if(xparent!=yparent)
+        visited[c-'a']=true;
+        char min=c;
+        for(char neighbor:adj.get(c-'a'))
         {
-            if(xparent<yparent)
+            if(!visited[neighbor-'a'])
             {
-                parent[yparent]=xparent;
-            }
-            else
-            {
-                parent[xparent]=yparent;
+               char smallest= dfs(neighbor,visited,adj);
+               if(smallest<min)
+                {
+                    min=smallest;
+                }
             }
         }
-    }
-
-    public int find(int x)
-    {
-        if(parent[x]==x)
-        {
-            return x;
-        }
-        return parent[x]=find(parent[x]);
+        return min;
     }
 }
