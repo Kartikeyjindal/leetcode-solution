@@ -2,32 +2,22 @@ class Solution
 {
     public List<Integer> rightSideView(TreeNode root) 
     {
-        List<Integer> arr = new ArrayList<>();
-        if (root == null) return arr;
+        List<Integer> list = new ArrayList<>();
+        preorder(root, 1, list);
+        return list;
+    }
 
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty())
+    public void preorder(TreeNode root, int level, List<Integer> list)
+    {
+        if (root == null)
         {
-            int n = queue.size();
-            TreeNode node = null;
-
-            while (n-- > 0)
-            {
-                node = queue.poll();
-
-                if (node.left != null)
-                {
-                    queue.add(node.left);
-                }
-                if (node.right != null)
-                {
-                    queue.add(node.right);
-                }
-            }
-            arr.add(node.val);
+            return;
         }
-        return arr;
+        if (list.size() < level)
+        {
+            list.add(root.val);
+        }
+        preorder(root.right, level + 1, list);
+        preorder(root.left, level + 1, list);
     }
 }
