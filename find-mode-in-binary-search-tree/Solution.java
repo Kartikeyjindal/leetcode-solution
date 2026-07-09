@@ -15,48 +15,51 @@
  */
 class Solution 
 {
-    int currfreq=0;
-    int maxfreq=0;
-    int pastnum=0;
-    ArrayList<Integer> arr=new ArrayList<>();
-
     public int[] findMode(TreeNode root) 
     {
-        dfs(root);
-        int []result=new int[arr.size()];
+        Map<Integer,Integer> map=new HashMap<>();
+        Queue<TreeNode> queue=new LinkedList<>();
+
+        queue.add(root);
+        while(!queue.isEmpty())
+        {
+            TreeNode node=queue.poll();
+            int key=node.val;
+            if(map.containsKey(key))
+            {
+                map.put(key,map.get(key)+1);
+            }
+            else
+            {
+                map.put(key,1);
+            }
+            if(node.left!=null)
+            {
+                queue.add(node.left);
+            }
+            if(node.right!=null)
+            {
+                queue.add(node.right);
+            }
+        }
+        int max=0;
+        for(int value:map.values())
+        {
+            max=Math.max(max,value);
+        }
+        ArrayList<Integer>arr=new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map.entrySet())
+        {
+            if(entry.getValue()==max)
+            {
+                arr.add(entry.getKey());
+            }
+        }
+        int[]ans=new int[arr.size()];
         for(int i=0;i<arr.size();i++)
         {
-            result[i]=arr.get(i);
+            ans[i]=arr.get(i);
         }
-        return result;    
-    }
-
-    public void dfs(TreeNode root)
-    {
-        if(root==null)
-        {
-            return ;
-        }
-        dfs(root.left);
-        if(root.val==pastnum)
-        {
-            currfreq++;
-        }
-        else
-        {
-            pastnum=root.val;
-            currfreq=1;
-        }
-        if(currfreq==maxfreq)
-        {
-            arr.add(root.val);
-        }
-        if(currfreq>maxfreq)
-        {
-            arr.clear();
-            arr.add(root.val);
-            maxfreq=currfreq;
-        }
-        dfs(root.right);
+        return ans;
     }
 }
