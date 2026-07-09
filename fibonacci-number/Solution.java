@@ -1,18 +1,32 @@
 class Solution 
 {
+    public static int []dp=new int[31];
+    static
+    {
+        Arrays.fill(dp,-1);
+    }
     public int fib(int n) 
     {
-        int []F=new int [n+1];
         if(n<=1)
+        return n;
+
+        int first,second;
+        if(dp[n-1] !=-1)
         {
-            return n;
+            first=dp[n-1];
         }
-        F[0]=0;
-        F[1]=1;
-        for(int i=2;i<=n;i++)
+        else
         {
-            F[i]=F[i-1]+F[i-2];
+            first=fib(n-1);
         }
-        return F[n];
+        if(dp[n-2] != -1)
+        {
+            second=dp[n-2];
+        }
+        else
+        {
+            second=fib(n-2);
+        }
+        return dp[n]=first+second;
     }
 }
