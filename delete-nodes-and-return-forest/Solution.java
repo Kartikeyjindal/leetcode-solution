@@ -15,7 +15,8 @@
  */
 class Solution 
 {
-    public List<TreeNode>list=new ArrayList<>();
+    public List<TreeNode> result=new ArrayList<>();
+
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
     {
         Set<Integer> set=new HashSet<>();
@@ -26,9 +27,9 @@ class Solution
         dfs(root,set);
         if(!set.contains(root.val))
         {
-            list.add(root);
+            result.add(root);
         }
-        return list;
+        return result;
     }
 
     public TreeNode dfs(TreeNode root,Set<Integer> set)
@@ -39,16 +40,16 @@ class Solution
         }
         root.left=dfs(root.left,set);
         root.right=dfs(root.right,set);
-
-        if(set.contains(root.val))
+        
+        if (set.contains(root.val))
         {
-            if(root.left!=null)
+            if (root.left != null)
             {
-                list.add(root.left);
+                result.add(root.left);
             }
-            if(root.right!=null)
+            if (root.right != null)
             {
-                list.add(root.right);
+                result.add(root.right);
             }
             return null;
         }
