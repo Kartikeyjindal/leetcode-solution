@@ -13,36 +13,26 @@
  *     }
  * }
  */
-class Solution 
-{
-    ArrayList<Integer> arr=new ArrayList<>();
-    public TreeNode balanceBST(TreeNode root) 
-    {
-        dfs(root);
-        return maketree(0,arr.size()-1);
+class Solution {
+    List<Integer> nums;
+    public TreeNode balanceBST(TreeNode root) {
+        nums = new ArrayList<Integer>();
+        getNumbers(root);
+        TreeNode res = balanceTree(0,nums.size()-1);
+        return res;
     }
-    
-    public void dfs(TreeNode root)
-    {
-        if(root==null)
-        {
-            return;
-        }
-        dfs(root.left);
-        arr.add(root.val);
-        dfs(root.right);
+    private void getNumbers(TreeNode node){
+        if(node==null) return;
+        getNumbers(node.left);
+        nums.add(node.val);
+        getNumbers(node.right);
     }
-
-    public TreeNode maketree(int start,int end)
-    {
-        if(start>end)
-        {
-            return null;
-        }
-        int mid=start+(end-start)/2;
-        TreeNode node=new TreeNode(arr.get(mid)); 
-        node.left=maketree(start,mid-1);
-        node.right=maketree(mid+1,end);
-        return node;
-    }
+    private TreeNode balanceTree(int l, int r){
+        if(l>r)return null;
+        int middleIdx = l+ ((r-l)/2);
+        TreeNode res = new TreeNode(nums.get(middleIdx));
+        res.left = balanceTree(l,middleIdx-1);
+        res.right = balanceTree(middleIdx+1,r);
+        return res;
+    }              
 }
