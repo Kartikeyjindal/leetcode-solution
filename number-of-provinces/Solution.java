@@ -26,30 +26,22 @@ class Solution
         {
             if(!visited[i])
             {
-                bfs(i,adj,visited);
+                dfs(i,adj,visited);
                 count++;
             }
         }
         return count;
     }
 
-    public void bfs(int node,ArrayList<ArrayList<Integer>> adj,boolean []visited)
+    public void dfs(int node,ArrayList<ArrayList<Integer>> adj,boolean []visited)
     {
-        Queue<Integer> queue=new LinkedList<>();
-        queue.add(node);
         visited[node]=true;
 
-        while(!queue.isEmpty())
+        for(int neighbor:adj.get(node))
         {
-            int curr=queue.poll();
-
-            for(int neighbor:adj.get(curr))
+            if(!visited[neighbor])
             {
-                if(!visited[neighbor])
-                {
-                    queue.add(neighbor);
-                    visited[neighbor]=true;
-                }
+                dfs(neighbor,adj,visited);
             }
         }
     }
