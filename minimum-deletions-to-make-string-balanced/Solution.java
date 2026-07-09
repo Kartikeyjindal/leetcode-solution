@@ -1,21 +1,14 @@
-class Solution 
-{
-    public int minimumDeletions(String s) 
-    {
-        Stack<Character> stack=new Stack<>();
-        int ans=0;
-        for(char ch:s.toCharArray())
-        {
-            if(!stack.isEmpty() && stack.peek()=='b' && ch=='a')
-            {
+class Solution {
+    public int minimumDeletions(String s) {
+        int n = s.length();
+        int cnt = 0;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == 'b') cnt++;
+            if (s.charAt(i) == 'a' && cnt > 0) {
+                cnt--;
                 ans++;
-                stack.pop();
             }
-            else
-            {
-                stack.push(ch);
-            }
-        }
-        return ans;
+        } return ans;
     }
 }
