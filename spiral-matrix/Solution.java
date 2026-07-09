@@ -1,62 +1,71 @@
-class Solution
+class Solution 
 {
-    public List<Integer> spiralOrder(int[][] matrix)
+    public List<Integer> spiralOrder(int[][] matrix) 
     {
-        List<Integer> result=new ArrayList<>();
-
-        if(matrix.length==0)
-        {
-            return result;
-        }
+        List<Integer> ans=new ArrayList<>();
 
         int m=matrix.length;
         int n=matrix[0].length;
 
+        int dir=0;
+
         int top=0;
-        int down=m-1;
+        int bottom=m-1;
         int left=0;
         int right=n-1;
 
-        int id=0;
-
-        while(top<=down && left<=right)
+        while(top<=bottom && left<=right)
         {
-            if(id==0)
+            if(dir==0)
             {
                 for(int i=left;i<=right;i++)
                 {
-                    result.add(matrix[top][i]);
+                    ans.add(matrix[top][i]);
                 }
+
                 top++;
+                dir++;
             }
-            else if(id==1)
+            else if(dir==1)
             {
-                for(int i=top;i<=down;i++)
+                if(top<=bottom)
                 {
-                    result.add(matrix[i][right]);
+                    for(int i=top;i<=bottom;i++)
+                    {
+                        ans.add(matrix[i][right]);
+                    }
                 }
+
                 right--;
+                dir++;
             }
-            else if(id==2)
+            else if(dir==2)
             {
-                for(int i=right;i>=left;i--)
+                if(left<=right)
                 {
-                    result.add(matrix[down][i]);
+                    for(int i=right;i>=left;i--)
+                    {
+                        ans.add(matrix[bottom][i]);
+                    }
                 }
-                down--;
+
+                bottom--;
+                dir++;
             }
             else
             {
-                for(int i=down;i>=top;i--)
+                if(top<=bottom)
                 {
-                    result.add(matrix[i][left]);
+                    for(int i=bottom;i>=top;i--)
+                    {
+                        ans.add(matrix[i][left]);
+                    }
                 }
                 left++;
+                dir=0;
             }
-
-            id=(id+1)%4;
         }
 
-        return result;
+        return ans;
     }
 }
