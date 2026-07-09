@@ -4,29 +4,33 @@ class Solution
     {
         int n=nums.length;
         int zero=0;
-        int two=n-1;
-        int l=0;
+        int one=0;
 
-        while(l<=two)
+        for(int i=0;i<n;i++)
         {
-            if(nums[l]==0)
+            if(nums[i]==0)
             {
-                int temp=nums[l];
-                nums[l]=nums[zero];
-                nums[zero]=temp;
                 zero++;
-                l++;
             }
-            else if(nums[l]==2)
+            else if(nums[i]==1)
             {
-                int temp=nums[l];
-                nums[l]=nums[two];
-                nums[two]=temp;
-                two--;
+                one++;
+            }
+        }
+        one=zero+one;
+        for(int i=0;i<n;i++)
+        {
+            if(i<zero)
+            {
+                nums[i]=0;
+            }
+            else if(i<one)
+            {
+                nums[i]=1;
             }
             else
             {
-                l++;
+                nums[i]=2;
             }
         }
     }
