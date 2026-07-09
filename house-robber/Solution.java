@@ -1,30 +1,23 @@
 class Solution 
 {
-    int []dp;
     public int rob(int[] nums) 
     {
-        int n=nums.length;
-        dp=new int[n];
-        Arrays.fill(dp,-1);
-
-        return solve(0,nums);
-    }
-
-    public int solve(int i,int[]nums)
-    {
-        if(i>=nums.length)
+        if(nums.length == 1)
         {
-            return 0;
-        }
-        if(dp[i]!=-1)
-        {
-            return dp[i];
+            return nums[0];
         }
 
-        int curr=nums[i]+solve(i+2,nums);
+        int []dp=new int [nums.length+1];
+        dp[0]=0;
+        dp[1]=nums[0];
 
-        int skip=solve(i+1,nums);
+        for(int i=2;i<=nums.length;i++)
+        {
+            int skip=dp[i-1];
+            int steal=dp[i-2]+nums[i-1];
 
-        return dp[i]=Math.max(curr,skip);
+            dp[i]=Math.max(skip,steal);
+        }
+        return dp[nums.length];
     }
 }
