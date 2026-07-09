@@ -21,13 +21,34 @@ class Solution
         {
             return root;
         }
-        root.left=pruneTree(root.left);
-        root.right=pruneTree(root.right);
+        if(!one(root.left))
+        {
+            root.left=null;
+        }
+        if(!one(root.right))
+        {
+            root.right=null;
+        }
+        pruneTree(root.left);
+        pruneTree(root.right);
 
         if(root.left==null && root.right==null && root.val==0)
         {
             root=null;
         }
         return root;
+    }
+
+    public boolean one(TreeNode root)
+    {
+        if(root==null)
+        {
+            return false;
+        }
+        if(root.val==1)
+        {
+            return true;
+        }
+        return one(root.left)||one(root.right);
     }
 }
