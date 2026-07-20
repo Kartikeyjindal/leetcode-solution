@@ -1,38 +1,36 @@
 class Solution 
 {
-    public int [][] dp=new int[501][501];
     public int minDistance(String word1, String word2) 
     {
-        Arrays.stream(dp).forEach(row -> Arrays.fill(row, -1));
-        return solve(word1,word2,0,0);
-    }
+        int m=word1.length();
+        int n=word2.length();
 
-    public int solve(String s1,String s2,int i , int j)
-    {
-        int m=s1.length();
-        int n=s2.length();
-        if(i==m)
+        int [][]dp=new int[m+1][n+1];
+
+        for(int i = 0; i <= m; i++) 
         {
-            return n-j;
+            dp[i][0] = i;
         }
-        if(j==n)
+        for(int j = 0; j <= n; j++) 
         {
-            return m-i;
+            dp[0][j] = j;
         }
-        if(dp[i][j]!=-1)
+
+        for(int i=1;i<=m;i++)
         {
-            return dp[i][j];
+            for(int j=1;j<=n;j++)
+            {
+                if(word1.charAt(i-1)==word2.charAt(j-1))
+                {
+                    dp[i][j]=dp[i-1][j-1];
+                }
+
+                else
+                {
+                    dp[i][j]=1+Math.min(dp[i-1][j],Math.min(dp[i-1][j-1],dp[i][j-1]));
+                }
+            }
         }
-        if(s1.charAt(i) == s2.charAt(j))
-        {
-            return dp[i][j]=solve(s1,s2,i+1,j+1);
-        }
-        else
-        {
-            int insert=1+solve(s1,s2,i,j+1);
-            int delete=1+solve(s1,s2,i+1,j);
-            int replace=1+solve(s1,s2,i+1,j+1);
-            return dp[i][j]=Math.min(Math.min(insert,delete),replace);
-        }
+        return dp[m][n];
     }
 }
