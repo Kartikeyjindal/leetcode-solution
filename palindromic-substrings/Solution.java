@@ -1,37 +1,55 @@
 class Solution 
 {
-    Boolean [][]dp=new Boolean [1001][1001];
     public int countSubstrings(String s) 
     {
         int n=s.length();
-        int count =0;
-        for(int i=0;i<n;i++)
+        boolean [][]dp=new boolean[n+1][n+1];
+        int count=0;
+
+        for(int l=1;l<=n;l++)
         {
-            for(int j=i;j<n;j++)
+            for(int i=0;i+l-1<n;i++)
             {
-                if(solve(s,i,j))
+                int j=i+l-1;
+                if(i==j)
                 {
-                    count ++;
+                    if(s.charAt(i)==s.charAt(j))
+                    {
+                        dp[i][j]=true;
+                    }
+                    else
+                    {
+                        dp[i][j]=false;
+                    }
+                }
+                else if(i+1==j)
+                {
+                    if(s.charAt(i)==s.charAt(j))
+                    {
+                        dp[i][j]=true;
+                    }
+                    else
+                    {
+                        dp[i][j]=false;
+                    }
+                }
+                else
+                {
+                    if(s.charAt(i)==s.charAt(j) && dp[i+1][j-1])
+                    {
+                        dp[i][j]=true;
+                    }
+                    else
+                    {
+                        dp[i][j]=false;
+                    }
+                }
+                if(dp[i][j])
+                {
+                    count++;
                 }
             }
         }
         return count;
-    }
-
-    public boolean solve(String s,int i,int j)
-    {
-        if(i>j)
-        {
-            return true;
-        }
-        if(dp[i][j] != null)
-        {
-            return dp[i][j];
-        }
-        if(s.charAt(i) == s.charAt(j))
-        {
-            return dp[i][j]=solve(s,i+1,j-1);
-        }
-        return dp[i][j]=false;
     }
 }
